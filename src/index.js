@@ -402,10 +402,14 @@ class Card extends React.Component {
     return {style, arrowStyle}
   }
   handleMouseEnter() {
-    this.props.active && this.setState({hover: true})
+    if (!this.props.withoutHover) {
+      this.props.active && this.setState({hover: true})
+    }
   }
   handleMouseLeave() {
-    this.setState({hover: false})
+    if (!this.props.withoutHover) {
+      this.setState({hover: false})
+    }
   }
   componentDidMount() {
     this.updateSize()
@@ -447,12 +451,14 @@ export default class ToolTip extends React.Component {
     parent: PropTypes.string.isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
-    tooltipTimeout: PropTypes.number
+    tooltipTimeout: PropTypes.number,
+    withoutHover: PropTypes.bool
   }
   static defaultProps = {
     active: false,
     group: 'main',
-    tooltipTimeout: 500
+    tooltipTimeout: 500,
+    withoutHover: false
   }
   componentDidMount() {
     if (!this.props.active) {
